@@ -34,6 +34,12 @@ func main() {
         MaxAge: 300,
     }))
 
+    v1Router := chi.NewRouter()
+    v1Router.HandleFunc("/healthz", handlerReadiness)
+
+    // Mount all v1Router to /v1 path
+    router.Mount("/v1", v1Router)
+
     serve := &http.Server{
         Handler: router,
         Addr: ":" + portString,
